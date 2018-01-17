@@ -20,6 +20,6 @@
     "libs"
   ],
   "dependencies": {
-    "bem-core": "<4.0"
+    "bem-core": ">4.0"
   }
 }

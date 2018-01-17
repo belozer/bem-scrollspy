@@ -1,10 +1,10 @@
 /* global modules:false */
 
 modules.define('scrollspy',
-               ['i-bem__dom', 'jquery', 'functions__throttle'],
-               function(provide, BEMDOM, $, throttle) {
+               ['i-bem-dom', 'jquery', 'functions__throttle'],
+               function(provide, bemDom, $, throttle) {
 
-provide(BEMDOM.decl('scrollspy', {
+provide(bemDom.declBlock('scrollspy', {
     onSetMod : {
         'js' : {
             'inited' : function() {
@@ -17,7 +17,8 @@ provide(BEMDOM.decl('scrollspy', {
                 this._onScroll(); // check for elements in focus
               });
 
-              this.bindToWin('resize', throttle(this.calcOffsets, 1500, this));
+              this._domEvents(bemDom.win)
+                    .on('resize', throttle(this.calcOffsets, 1500, this));
             },
 
             '' : function(){
@@ -95,7 +96,7 @@ provide(BEMDOM.decl('scrollspy', {
         return false;
       }
 
-      this.emit('scrollin', this.__self.direction);
+      this._emit('scrollin', this.__self.direction);
       this._scrollin = true;
       return true;
     },
@@ -110,7 +111,7 @@ provide(BEMDOM.decl('scrollspy', {
         return false;
       }
 
-      this.emit('scrollout', this.__self.direction);
+      this._emit('scrollout', this.__self.direction);
       this._scrollin = false;
       return true;
     },
@@ -171,7 +172,7 @@ provide(BEMDOM.decl('scrollspy', {
     /**
      * viewport Height
      */
-    screenH: BEMDOM.win.height(),
+    screenH: bemDom.win.height(),
 
     _to : null,
 
@@ -182,7 +183,7 @@ provide(BEMDOM.decl('scrollspy', {
      * @param {object} event
      */
     _onScroll: function(e) {
-      this.scroll = BEMDOM.win.scrollTop();
+      this.scroll = bemDom.win.scrollTop();
       this._setDirection();
       this.posBottom = this.scroll + this.screenH;
 
@@ -236,12 +237,13 @@ provide(BEMDOM.decl('scrollspy', {
       return off;
     },
 
-    live: function() {
-      var win = BEMDOM.win;
-      win.bind('scroll', $.proxy(throttle(this._onScroll, this.pause, this), this));
+    lazyInit : false,
+
+    onInit: function() {
+      var win = bemDom.win;
+      this._domEvents(win).on('scroll', $.proxy(throttle(this._onScroll, this.pause, this), this));
       this.scroll = win.scrollTop();
       this.posBottom = this.scroll + this.screenH;
-      return false;
     }
 }));
 

@@ -6,11 +6,11 @@ BEM-Scrollspy
 ## Зависимости
 
 bem-core
-  * блок `i-bem` 
+  * блок `i-bem`
   * блок `next-tick`
-  * блок `functions` 
+  * блок `functions`
   * блок `jquery`
-   
+
 ## Установка
 
  1. Достаточно прописать библиотеку как зависимость в вашем `bower.json` и выполнить `bower install` для установки из GitHub-репозитория или Bower регистра.
@@ -27,23 +27,23 @@ bem-core
 
   * `scrollin` - когда блок становится виден пользователю;
   * `scrollout` - когда блок скрыватся из виду.
-  
+
 Подписавшись на эти события, можно выполнять различные действия. Например, запускать и останавливать анимацию:
 
 ````javascript
-    var ss = this.findBlockOn('scrollspy');
+    var ss = this.findMixedBlock(ScrollSpy);
 
-    ss.on('scrollin', function() { this.setMod('animation', 'progress'); }, this);                  
-    ss.on('scrollout', function() { this.setMod('animation', 'stop'); }, this);   
+    ss.on('scrollin', function() { this.setMod('animation', 'progress'); }, this);
+    ss.on('scrollout', function() { this.setMod('animation', 'stop'); }, this);
 ````
 
 В объекте события передается направление скролла. Например:
 ````javascript
-    var ss = this.findBlockOn('scrollspy');
+    var ss = this.findMixedBlock(ScrollSpy);
     ss.on('scrollin', this._onScrollIn, this); //подписка на событие
-    
+
     /*.....*/
-    
+
     _onScrollIn: function(e, dir){ //получаем направление скролла вторым параметром
       if (dir === 'down') {
         doAction();
@@ -66,7 +66,7 @@ bem-core
 
 или использовать метод `setOffset()`:
 ````javascript
-    var ss = this.findBlockInside('scrollspy');
+    var ss = this.findChildBlock(ScrollSpy);
     ss.setOffset(0);
 ````
 Этот метод установит новый размер отступа и пересчитает позицию блока.
@@ -76,7 +76,7 @@ bem-core
 ## Методы блока
 
 | Метод           | Описание                                            |
-|-----------------|-----------------------------------------------------| 
+|-----------------|-----------------------------------------------------|
 | setOffset(val)  | Устанавливает отступ в процентах или пикселях.      |
 | calcOffsets()   | Запускает расчет позиции блока.                     |
 | activate()      | Ручная активация блока (вызовет событие `scrollin`).|
