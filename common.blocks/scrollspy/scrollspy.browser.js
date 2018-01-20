@@ -15,7 +15,7 @@ provide(bemDom.declBlock('scrollspy', {
               nextTick(function(){
                 this.calcOffsets();
                 this._onScroll(); // check for elements in focus
-              });
+              }.bind(this));
 
               this._domEvents(bemDom.win)
                     .on('resize', throttle(this.calcOffsets, 1500, this));
