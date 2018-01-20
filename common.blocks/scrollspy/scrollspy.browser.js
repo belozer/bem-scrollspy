@@ -1,8 +1,8 @@
 /* global modules:false */
 
 modules.define('scrollspy',
-               ['i-bem-dom', 'jquery', 'functions__throttle', 'next-tick'],
-               function(provide, bemDom, $, throttle, nextTick) {
+               ['i-bem-dom', 'jquery', 'functions__throttle'],
+               function(provide, bemDom, $, throttle) {
 
 provide(bemDom.declBlock('scrollspy', {
     onSetMod : {
@@ -12,10 +12,10 @@ provide(bemDom.declBlock('scrollspy', {
               this._offset = this.params.offset || '10%';
               this._scrollin = false;
 
-              nextTick(function(){
+              this._nextTick(function(){
                 this.calcOffsets();
                 this._onScroll(); // check for elements in focus
-              }.bind(this));
+              });
 
               this._domEvents(bemDom.win)
                     .on('resize', throttle(this.calcOffsets, 1500, this));
